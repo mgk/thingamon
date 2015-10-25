@@ -59,19 +59,9 @@ Yay means you're good. An `AttributeError` means you need to update your python'
 
   + Google "python openssl version TLS"
 
-### Root certificate
+### Root CA Certificates
 
-Unlike web browsers Python ssl does not bundle a set of root SSL certificates so you have to download them and configure them in thingamon. This is kind of annoying. There is a root certificate here:
-
-  https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem
-
-Symantec's main page on certs they have for download:
-
-  https://www.symantec.com/page.jsp?id=roots
-
-You could also export the cert from your browser.
-
-I'm looking into ways to make this easier.
+Unlike web browsers Python ssl does not bundle a set of root SSL certificates. thingamon uses the [certifi](https://certifi.io) root CA file by default. Keep your Things secure by keeping your certifi package up to date. Sign up for email notifications when the Certifi Trust Database is updated.
 
 ## Developing
 

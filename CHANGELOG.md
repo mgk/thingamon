@@ -3,13 +3,7 @@ This project uses [Semantic Versioning](http://semver.org/).
 
 ## *Unreleased*
 ### Added
-- stuff
-
-### Changed
-- things
-
-### Fixed
-- bugs
+- [certifi](https://certifi.io) bundled root certificates ftw
 
 ## [0.1.1](https://github.com/mgk/thingamon/releases/tag/v0.1.1) - [2015-10-25]
 ### Fixed

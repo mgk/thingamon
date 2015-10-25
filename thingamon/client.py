@@ -6,6 +6,7 @@ import json
 import ssl
 import time
 import paho.mqtt.client as mqtt
+import certifi
 from .thing import Thing
 
 
@@ -18,7 +19,7 @@ log.setLevel(logging.DEBUG)
 class Client(object):
     """Authenticated connection to MQTT server"""
 
-    def __init__(self, host=None, port=8883, ca_certs_filename=None,
+    def __init__(self, host=None, port=8883, ca_certs_filename=certifi.where(),
                  client_cert_filename=None, private_key_filename=None,
                  tls_version=ssl.PROTOCOL_TLSv1_2, log_mqtt=False):
         """Create a Client instance for MQTT communication
@@ -27,10 +28,9 @@ class Client(object):
             host (str): hostname of MQTT broker server
             port (int): port of MQTT broker. The default port of 8883 is used
                 by AWS IoT.
-            ca_certs_filename (str): name of file containing a `root CA
-                certificate chain <https://wiki.python.org/moin/SSL/>`_.
-                It is vital to use valid CA certs otherwise the MQTT server
-                could be impersonated and your Things could be hacked.
+            ca_certs_filename (str): name of file containing a root
+                certificate. By default the currently installed
+                `certi <https://certifi.io/>`_ certificate file is used.
             client_cert_filename (str): name of file containing your client
                 certificate
             private_key_filename (str): name of file containing the private

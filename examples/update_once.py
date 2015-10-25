@@ -9,9 +9,11 @@ To use, follow the AWS IoT getting started guide and create a Thing.
 You should have the following files:
   cert.pem - cert from AWS create-keys-and-certificate
   thing-private-key.pem - private key from AWS create-keys-and-certificate
-  rootCA.pem - CA cert downloaded from URL in AWS IoT quickstart guide
 
-Also take note of your specific AWS MQTT endpoint
+Also take note of your specific AWS MQTT endpoint.
+
+You do not need to download a root certificate as thingamon uses
+certifi bundled certs by default.
 
 Usage:
 
@@ -39,7 +41,6 @@ if __name__ == '__main__':
     mood = sys.argv[3]
 
     client = Client(host,
-                    ca_certs_filename='rootCA.pem',
                     client_cert_filename='cert.pem',
                     private_key_filename='thing-private-key.pem',
                     log_mqtt=True)
