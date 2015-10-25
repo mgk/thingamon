@@ -19,16 +19,19 @@ release: clean test
 	python setup.py sdist bdist_wheel
 	twine upload -r pypitest dist/*
 	git push origin master --tags
-	PYTHONPATH=. bumpversion --no-tag --post-hook bump.hook minor
 	@echo
 	@echo "so far so good..."
 	@echo "wait for Travis green light, then:"
 	@echo
 	@echo "twine upload dist/*"
+	@echo
+	@echo "do bump-minor or bump-patch before next release"
 
 bump-patch:
-	PYTHONPATH=. bumpversion --allow-dirty --no-tag --no-commit \
-	  --post-hook bump.hook patch
+	PYTHONPATH=. bumpversion --no-tag --post-hook bump.hook patch
+
+bump-minor:
+	PYTHONPATH=. bumpversion --no-tag --post-hook bump.hook minor
 
 test:
 	pep8 thingamon
