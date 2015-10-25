@@ -34,7 +34,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='thingamon',
-    version='0.2.0',
+    version='0.2.1-dev',
     description='AWS MQTT IoT Thing monitor',
     long_description=__doc__,
     url='https://github.com/mgk/thingamon/blob/master/README.md',
@@ -42,6 +42,10 @@ setup(
     author_email='michael@keirnan.com',
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
+    install_requires=[
+        'paho-mqtt',
+        'certifi '
+    ],
     tests_require=['pytest'],
     zip_safe=False,
     platforms='any',
