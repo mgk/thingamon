@@ -16,12 +16,6 @@ Installation
 Usage
 =====
 
-Run worker process:
-
-.. code::
-
-    thingamon -h
-
 `See Documentation for details`_
 
 .. _See Documentation for details: https://github.com/mgk/thingamon/blob/master/README.md
