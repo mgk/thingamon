@@ -11,15 +11,6 @@ This project uses [Semantic Versioning](http://semver.org/).
 ### Fixed
 - bugs
 
-### Added
-- stuff
-
-### Changed
-- things
-
-### Fixed
-- bugs
-
 ## [0.0.1](https://github.com/mgk/thingamon/releases/tag/v0.0.1) - [2015-10-25]
 ### Added
 - initial working version with example

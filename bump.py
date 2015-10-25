@@ -13,5 +13,6 @@ def hook(s, current_version, new_version):
 
         lines = [line for line in s.splitlines() if not dev_line(line)]
         s = '\n'.join(lines)
+        s += '\n'
 
     return s
