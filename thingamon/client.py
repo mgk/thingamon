@@ -41,6 +41,7 @@ class Client(object):
                 is currently the only version accepted by AWS IoT.
             log_mqtt (bool): if True MQTT data sent and received is logged.
         """
+        self.connect_attempted = False
         self._connected = False
         self._connected_lock = Lock()
         self.host = host
@@ -79,14 +80,17 @@ class Client(object):
 
     def connect(self):
         """Connect to MQTT server and wait for server to acknowledge"""
-        self.client.connect(self.host, port=self.port)
-        self.client.loop_start()
+        if not self.connect_attempted:
+            self.connect_attempted = True
+            self.client.connect(self.host, port=self.port)
+            self.client.loop_start()
 
-        while not self.connected:
-            log.info('waiting for MQTT connection...')
-            time.sleep(1)
+            while not self.connected:
+                log.info('waiting for MQTT connection...')
+                time.sleep(1)
 
     def publish(self, topic, message):
         """Publish an MQTT message to a topic."""
         log.info('publish {}'.format(message))
+        self.connect()
         self.client.publish(topic, message)

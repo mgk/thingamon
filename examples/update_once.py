@@ -44,7 +44,6 @@ if __name__ == '__main__':
                     client_cert_filename='cert.pem',
                     private_key_filename='thing-private-key.pem',
                     log_mqtt=True)
-    client.connect()
     thing = Thing(name, client)
     thing.publish_state({'mood': mood})
 
