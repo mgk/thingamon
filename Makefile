@@ -26,6 +26,10 @@ release: clean test
 	@echo
 	@echo "twine upload dist/*"
 
+bump-patch:
+	PYTHONPATH=. bumpversion --allow-dirty --no-tag --no-commit \
+	  --post-hook bump.hook patch
+
 test:
 	pep8 thingamon
 	tox

@@ -35,7 +35,8 @@ def test_connect(MockMqttClient):
     client._connected = True
 
     client.connect()
-    MockMqttClient.return_value.connect.assert_called_once_with('host', 8883)
+    MockMqttClient.return_value.connect.assert_called_once_with(
+        'host', port=8883)
 
 @patch('paho.mqtt.client.Client', autospec=True)
 def test_publish(MockMqttClient):
