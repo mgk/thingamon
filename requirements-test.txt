@@ -1,0 +1,4 @@
+pytest
+pep8
+coveralls
+mock
