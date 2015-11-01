@@ -38,7 +38,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='thingamon',
-    version='0.2.2-dev',
+    version='0.2.2',
     description='AWS MQTT IoT Thing monitor',
     long_description=__doc__,
     url='https://github.com/mgk/thingamon/blob/master/README.md',

@@ -2,6 +2,15 @@
 This project uses [Semantic Versioning](http://semver.org/).
 
 ## *Unreleased*
+### Added
+- stuff
+
+### Changed
+- things
+
+### Fixed
+- bugs
+## [0.2.2](https://github.com/mgk/thingamon/releases/tag/v0.2.2) - [2015-11-01]
 
 ### Fixed
 - #3 add Client.disconnect() method
