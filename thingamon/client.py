@@ -89,6 +89,9 @@ class Client(object):
                 log.info('waiting for MQTT connection...')
                 time.sleep(1)
 
+    def disconnect(self):
+        self.client.loop_stop()
+
     def publish(self, topic, message):
         """Publish an MQTT message to a topic."""
         log.info('publish {}'.format(message))
