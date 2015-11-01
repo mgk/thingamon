@@ -4,7 +4,9 @@
 
 # thingamon
 
-[thingamon](https://github.com/mgk/thingamon) is a package to publish [MQTT](http://mqtt.org/) messages for [AWS IoT](https://aws.amazon.com/iot/) Things.
+[thingamon](https://github.com/mgk/thingamon) is a library to publish [MQTT](http://mqtt.org/) messages for [AWS IoT](https://aws.amazon.com/iot/) Things.
+
+See [thingpin](https://github.com/mgk/thingpin) for an application example: it is a Raspberry Pi door sensor.
 
 ## Getting Started
 

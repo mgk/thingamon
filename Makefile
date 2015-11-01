@@ -41,4 +41,5 @@ coverage:
 	coverage run --source=thingamon -m py.test
 	coverage html
 
-.PHONY: build clean test coverage install install-dev release-test
+.PHONY: build clean very-clean install install-dev release \
+        bump-patch bump-minor test coverage
