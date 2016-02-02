@@ -94,6 +94,6 @@ class Client(object):
 
     def publish(self, topic, message):
         """Publish an MQTT message to a topic."""
-        log.info('publish {}'.format(message))
         self.connect()
+        log.info('publish {}'.format(message))
         self.client.publish(topic, message)
