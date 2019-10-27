@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient, DROP_OLDEST
+from AWSIoTPythonSDK.core.protocol import paho
 import logging
 from threading import Lock
 import json
 import ssl
 import time
-import paho.mqtt.client as mqtt
 import certifi
 from .thing import Thing
 
@@ -17,18 +18,26 @@ log.setLevel(logging.DEBUG)
 
 
 class Client(object):
-    """Authenticated connection to MQTT server"""
+    """AWS IoT MQTT client.
 
-    def __init__(self, host=None, port=8883, ca_certs_filename=certifi.where(),
-                 client_cert_filename=None, private_key_filename=None,
-                 tls_version=ssl.PROTOCOL_TLSv1_2, log_mqtt=False):
-        """Create a Client instance for MQTT communication
+    Thin wrapper around AWSIoTMQTTClient that publishes MQTT messages
+    asynchornously.
+    """
+
+    def __init__(self,
+                 host=None,
+                 port=8883,
+                 root_ca_filename=certifi.where(),
+                 client_cert_filename=None,
+                 private_key_filename=None,
+                 log_mqtt=True):
+        """Create a Client instance for MQTT communication.
 
         Args:
             host (str): hostname of MQTT broker server
             port (int): port of MQTT broker. The default port of 8883 is used
                 by AWS IoT.
-            ca_certs_filename (str): name of file containing a root
+            root_ca_filename (str): name of file containing a root
                 certificate. By default the currently installed
                 `certi <https://certifi.io/>`_ certificate file is used.
             client_cert_filename (str): name of file containing your client
@@ -37,36 +46,24 @@ class Client(object):
                 key for your client certificate. Together with the client
                 certificate this is how the client authenticates itself to
                 the MQTT server.
-            tls_version (init): SSL protocol version to use. The default
-                is currently the only version accepted by AWS IoT.
             log_mqtt (bool): if True MQTT data sent and received is logged.
         """
         self.connect_attempted = False
         self._connected = False
         self._connected_lock = Lock()
-        self.host = host
-        self.port = port
-        self.client = mqtt.Client()
-        self.client.tls_set(ca_certs=ca_certs_filename,
-                            certfile=client_cert_filename,
-                            keyfile=private_key_filename,
-                            tls_version=tls_version)
 
-        def on_connect(client, userdata, rc):
-            self.connected = True
-            log.info('MQTT connect: {}'.format(mqtt.connack_string(rc)))
+        self.client = AWSIoTMQTTClient('thingamon')
+        self.client.disableMetricsCollection()
+        self.client.configureEndpoint(host, port)
+        self.client.configureCredentials(root_ca_filename,
+                                         private_key_filename,
+                                         client_cert_filename)
+        self.client.configureOfflinePublishQueueing(1000, DROP_OLDEST)
+        self.client.configureConnectDisconnectTimeout(10)
+        self.client.configureMQTTOperationTimeout(5)
 
-        def on_disconnect(client, userdata, rc):
-            self.connected = False
-            log.info('MQTT disconnect: {}'.format(mqtt.connack_string(rc)))
-
-        def on_log(client, userdata, level, buf):
-            log.debug('{} {} {}'.format(userdata, level, buf))
-
-        self.client.on_connect = on_connect
-        self.client.on_disconnect = on_disconnect
         if log_mqtt:
-            self.client.on_log = on_log
+            logging.getLogger("AWSIoTPythonSDK.core").setLevel(logging.DEBUG)
 
     @property
     def connected(self):
@@ -79,21 +76,16 @@ class Client(object):
             self._connected = value
 
     def connect(self):
-        """Connect to MQTT server and wait for server to acknowledge"""
+        """Connect to MQTT server"""
         if not self.connect_attempted:
             self.connect_attempted = True
-            self.client.connect(self.host, port=self.port)
-            self.client.loop_start()
-
-            while not self.connected:
-                log.info('waiting for MQTT connection...')
-                time.sleep(1)
+            self.client.connectAsync()
 
     def disconnect(self):
-        self.client.loop_stop()
+        self.client.disconnectAsync()
 
-    def publish(self, topic, message):
+    def publish(self, topic, message, qos=1):
         """Publish an MQTT message to a topic."""
         self.connect()
-        log.info('publish {}'.format(message))
-        self.client.publish(topic, message)
+        self.client.publishAsync(topic, message, qos)
+        log.info('publish({}, qos={} msg={})'.format(topic, qos, message))

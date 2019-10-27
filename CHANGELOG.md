@@ -1,15 +1,12 @@
 # Change Log
 This project uses [Semantic Versioning](http://semver.org/).
 
-## *Unreleased*
-### Added
-- stuff
-
+##  [1.0.0](https://github.com/mgk/thingamon/releases/tag/v1.0.0) - [2019-10-27]
 ### Changed
-- things
+- breaking change: Use AWS Python SDK instead of Paho. This also changes the `Client` constructor incompatibly.
+- announce deprecation of project as AWS SDK obviates need for thingamon
+- all operations are asynchronous
 
-### Fixed
-- bugs
 ## [0.2.2](https://github.com/mgk/thingamon/releases/tag/v0.2.2) - [2015-11-01]
 
 ### Fixed

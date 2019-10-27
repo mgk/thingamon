@@ -1,6 +1,6 @@
 pytest
-pep8
+pycodestyle
 coveralls
 mock
-paho-mqtt
+AWSIoTPythonSDK
 certifi

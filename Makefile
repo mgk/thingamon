@@ -15,7 +15,6 @@ install-dev: install
 	pip install -r requirements-dev.txt
 
 release: clean test
-	PYTHONPATH=. bumpversion --post-hook bump.hook release
 	python setup.py sdist bdist_wheel
 	twine upload -r pypitest dist/*
 	git push origin master --tags
@@ -27,19 +26,12 @@ release: clean test
 	@echo
 	@echo "do bump-minor or bump-patch before next release"
 
-bump-patch:
-	PYTHONPATH=. bumpversion --no-tag --post-hook bump.hook patch
-
-bump-minor:
-	PYTHONPATH=. bumpversion --no-tag --post-hook bump.hook minor
-
 test:
-	pep8 thingamon
-	tox
+	@pycodestyle thingamon
+	@tox
 
 coverage:
 	coverage run --source=thingamon -m py.test
 	coverage html
 
-.PHONY: build clean very-clean install install-dev release \
-        bump-patch bump-minor test coverage
+.PHONY: build clean very-clean install install-dev release test coverage
